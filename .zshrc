@@ -26,11 +26,16 @@ HISTFILE=~/.config/zsh/.zsh_history
 # Prompt Her before some other mf does...
 PIECES=("" "" "" "" "" "")
 set_prompt() {
+    local virtual_env=""
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        virtual_env="(virt:$(basename $VIRTUAL_ENV)) "
+    fi
   local piece=${PIECES[$((RANDOM % ${#PIECES[@]} + 1))]}
   PRECOL="%F{yellow}"
   COL="%F{red}"
+  GREY="%F{cyan}"
   RESET="%f"
-  PROMPT=" ${PRECOL}%2~${RESET} ${COL}$piece${RESET} "
+  PROMPT=" ${PRECOL}%2~${RESET} ${GREY}${virtual_env}${COL}$piece${RESET} "
 }
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd set_prompt
